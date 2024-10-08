@@ -17,7 +17,10 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
+<<<<<<< HEAD
     "@radix-ui/react-switch": "^1.1.1",
+=======
+>>>>>>> 451f6011d04af68a45d9bd9c38e259fa8e9be3ee
     "@radix-ui/react-tabs": "^1.1.1",
     "@stripe/react-stripe-js": "^2.8.1",
     "@stripe/stripe-js": "^4.7.0",

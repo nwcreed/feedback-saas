@@ -37,7 +37,10 @@ model Account {
   access_token       String? @db.Text
   expires_at         Int?
   token_type         String?
+<<<<<<< HEAD
   livemode           Boolean?
+=======
+>>>>>>> 451f6011d04af68a45d9bd9c38e259fa8e9be3ee
   scope              String?
   id_token           String? @db.Text
   session_state      String?

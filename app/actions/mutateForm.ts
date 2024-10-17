@@ -1,8 +1,11 @@
 "use server";
 
+
 import { prisma } from "@/lib/prisma"; // Assurez-vous que le chemin est correct
 import { getServerSession } from "next-auth"; // Importer getServerSession
 import { authOptions } from "@/auth"; // Importer authOptions
+
+
 
 
 interface SaveFormData {
@@ -15,17 +18,20 @@ interface SaveFormData {
   }>;
 }
 
+
 export async function saveForm(data: SaveFormData) {
   const { name, description, questions } = data;
-  
+ 
   // Récupération de la session de l'utilisateur
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id;
+
 
   // Vérification que l'utilisateur est authentifié
   if (!userId) {
     throw new Error("User not authenticated");
   }
+
 
   // Création du formulaire associé à l'utilisateur
   const newForm = await prisma.form.create({
@@ -36,6 +42,7 @@ export async function saveForm(data: SaveFormData) {
       published: false,
     },
   });
+
 
   // Ajout des questions et des options pour chaque question
   for (const question of questions) {
@@ -48,6 +55,7 @@ export async function saveForm(data: SaveFormData) {
         rating: 0,     // Vous devez fournir un `rating`, utilisez une valeur par défaut si nécessaire
       },
     });
+
 
     // Si des options de champ existent, elles sont ajoutées
     if (question.fieldOptions && question.fieldOptions.length > 0) {
@@ -65,8 +73,39 @@ export async function saveForm(data: SaveFormData) {
     }
   }
 
+
   return newForm.id;
 }
+
+
+// Fonction pour mettre à jour les éléments d'un formulaire
+export async function updateForm(formId: number, name: string, description?: string) {
+  // Vérification que l'utilisateur est authentifié
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
+
+
+
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+
+
+
+
+  // Mise à jour du formulaire avec le nouvel nom et la nouvelle description
+  const updatedForm = await prisma.form.update({
+    where: { id: formId },
+    data: { name, description },
+  });
+
+
+
+
+  return updatedForm;
+}
+
 
 export async function publishForm(formId: number) {
   // Mise à jour pour publier le formulaire

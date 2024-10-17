@@ -37,10 +37,6 @@ model Account {
   access_token       String? @db.Text
   expires_at         Int?
   token_type         String?
-<<<<<<< HEAD
-  livemode           Boolean?
-=======
->>>>>>> 451f6011d04af68a45d9bd9c38e259fa8e9be3ee
   scope              String?
   id_token           String? @db.Text
   session_state      String?
@@ -76,7 +72,8 @@ model Form {
   description String?           // Description du formulaire
   userId      String            // Référence à l'utilisateur qui a créé le formulaire
   published   Boolean           // Indique si le formulaire est publié
-  submissions  FormSubmission[] // Relation vers les soumissions de formulaires
+  submissions FormSubmission[] // Relation vers les soumissions de formulaires
+  products    Product[]   // Relation vers les produits
 
   @@map("forms") // Mapping de la table
 }
@@ -96,3 +93,12 @@ model FormSubmission {
 
   @@map("form_submissions")
 }
+
+model Product {
+  id        Int     @id @default(autoincrement())
+  formId    Int
+  form      Form    @relation(fields: [formId], references: [id])
+  productId String  @unique // ID du produit provenant de Stripe
+  name      String?  // Assurez-vous que ce champ est défini
+}
+
